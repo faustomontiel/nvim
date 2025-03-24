@@ -12,6 +12,11 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'morhetz/gruvbox'
 Plug 'folke/tokyonight.nvim'
 
+" Requisitos para Telescope
+Plug 'nvim-lua/plenary.nvim'          " dependencia
+Plug 'nvim-telescope/telescope.nvim'  " el plugin en sí
+
+
 call plug#end()
 
 " ───────────── Configuración general ─────────────
@@ -45,6 +50,17 @@ lua << EOF
 require("nvim-tree").setup()
 EOF
 nnoremap <C-n> :NvimTreeToggle<CR>
+
+lua << EOF
+require('telescope').setup{}
+EOF
+
+let mapleader = " "
+nnoremap <leader>ff :Telescope find_files<CR>
+nnoremap <leader>fg :Telescope live_grep<CR>
+nnoremap <leader>fb :Telescope buffers<CR>
+nnoremap <leader>fh :Telescope help_tags<CR>
+
 
 " ───────────── coc.nvim ─────────────
 " Mostrar sugerencias automáticamente
