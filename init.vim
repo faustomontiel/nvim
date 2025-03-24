@@ -1,0 +1,66 @@
+" ───────────── Plugin manager ─────────────
+call plug#begin('~/.vim/plugged')
+
+" Navegador de archivos
+Plug 'nvim-tree/nvim-tree.lua'
+Plug 'nvim-tree/nvim-web-devicons' " iconos bonitos
+
+" Autocompletado estilo VSCode
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" Tema de colores (opcional)
+Plug 'morhetz/gruvbox'
+Plug 'folke/tokyonight.nvim'
+
+call plug#end()
+
+" ───────────── Configuración general ─────────────
+syntax on
+set number
+set relativenumber
+set termguicolors
+colorscheme tokyonight
+
+" Restaurar posición del cursor
+if has("autocmd")
+  au BufReadPost *
+        \ if line("'\"") > 0 && line("'\"") <= line("$") |
+        \   exe "normal! g'\"" |
+        \ endif
+endif
+
+" Indentación automática
+set autoindent
+set smartindent
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set expandtab
+
+" Moverse entre líneas con h/l en los bordes
+set whichwrap+=<,>,h,l
+
+" ───────────── nvim-tree ─────────────
+lua << EOF
+require("nvim-tree").setup()
+EOF
+nnoremap <C-n> :NvimTreeToggle<CR>
+
+" ───────────── coc.nvim ─────────────
+" Mostrar sugerencias automáticamente
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <silent><expr> <S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Ir a definición, hover info, etc.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> K :call CocActionAsync('doHover')<CR>
+nmap <leader>rn <Plug>(coc-rename)
+
