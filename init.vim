@@ -10,11 +10,16 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Tema de colores (opcional)
 Plug 'morhetz/gruvbox'
-Plug 'folke/tokyonight.nvim'
+"Plug 'folke/tokyonight.nvim'
+Plug 'ellisonleao/gruvbox.nvim'
+Plug 'hashivim/vim-terraform'
 
 " Requisitos para Telescope
 Plug 'nvim-lua/plenary.nvim'          " dependencia
 Plug 'nvim-telescope/telescope.nvim'  " el plugin en sí
+
+"GIT diff
+Plug 'tpope/vim-fugitive'
 
 
 call plug#end()
@@ -24,7 +29,9 @@ syntax on
 set number
 set relativenumber
 set termguicolors
-colorscheme tokyonight
+"colorscheme tokyonight
+set background=dark
+colorscheme gruvbox
 
 " Restaurar posición del cursor
 if has("autocmd")
@@ -44,6 +51,10 @@ set expandtab
 
 " Moverse entre líneas con h/l en los bordes
 set whichwrap+=<,>,h,l
+
+
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
+
 
 " ───────────── nvim-tree ─────────────
 lua << EOF
@@ -79,4 +90,3 @@ endfunction
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> K :call CocActionAsync('doHover')<CR>
 nmap <leader>rn <Plug>(coc-rename)
-
